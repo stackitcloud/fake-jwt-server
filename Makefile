@@ -19,7 +19,7 @@ build:
 
 .PHONY: docker-build
 docker-build:
-	CGO_ENABLED=0 go build -ldflags "-s -w" -o ./bin/fake-jwt-server -v cmd/fakejwtserver/main.go
+	GOOS=linux CGO_ENABLED=0 go build -ldflags "-s -w" -o ./fake-jwt-server -v cmd/fakejwtserver/main.go
 	docker build -t $(IMG) -f Dockerfile .
 	rm fake-jwt-server
 

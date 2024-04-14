@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -13,11 +14,14 @@ import (
 )
 
 var (
-	audience string
-	issuer   string
-	subject  string
-	port     int
-	id       string
+	audience         string
+	issuer           string
+	subject          string
+	port             int
+	id               string
+	email            string
+	grandType        string
+	expiresInMinutes int
 )
 
 var rootCmd = &cobra.Command{
@@ -31,6 +35,9 @@ var rootCmd = &cobra.Command{
 		fakeJwtServer.WithSubject(subject)
 		fakeJwtServer.WithID(id)
 		fakeJwtServer.WithPort(port)
+		fakeJwtServer.WithEmail(email)
+		fakeJwtServer.WithGrandType(grandType)
+		fakeJwtServer.WithExpires(time.Duration(expiresInMinutes))
 
 		err := fakeJwtServer.Serve()
 		if err != nil {
@@ -46,11 +53,14 @@ func Execute() error {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&audience, "audience", "product", "The audience of the JWT token")
-	rootCmd.PersistentFlags().StringVar(&issuer, "issuer", "product", "The issuer of the JWT token")
+	rootCmd.PersistentFlags().StringVar(&audience, "audience", "test", "The audience of the JWT token")
+	rootCmd.PersistentFlags().StringVar(&issuer, "issuer", "test", "The issuer of the JWT token")
 	rootCmd.PersistentFlags().StringVar(&subject, "subject", "test", "The subject of the JWT token")
 	rootCmd.PersistentFlags().StringVar(&id, "id", "test", "The id of the JWT token")
 	rootCmd.PersistentFlags().IntVar(&port, "port", 8008, "The port the server should listen on")
+	rootCmd.PersistentFlags().StringVar(&email, "email", "test@example.com", "The email of the JWT token")
+	rootCmd.PersistentFlags().StringVar(&grandType, "grand-type", "client_credentials", "The grand type of the JWT token")
+	rootCmd.PersistentFlags().IntVar(&expiresInMinutes, "expires-in-minutes", 24*365*100*60, "The expiration time of the JWT token in minutes")
 }
 
 func initConfig() {

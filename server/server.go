@@ -141,19 +141,18 @@ type FakeClaims struct {
 }
 
 func (f *FakeJWTServer) createJsonWebToken() (string, error) {
-	const years = 100
 	claims := FakeClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    f.config.Issuer,
 			Subject:   f.config.Subject,
 			Audience:  jwt.ClaimStrings{f.config.Audience},
-			ExpiresAt: jwt.NewNumericDate(time.Now().AddDate(years, 0, 0)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(f.config.Expires)),
 			NotBefore: jwt.NewNumericDate(time.Now().AddDate(0, 0, -1)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ID:        f.config.ID,
 		},
-		Email:     "test@stackit.cloud",
-		GrantType: "client_credentials",
+		Email:     f.config.Email,
+		GrantType: f.config.GrandType,
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodRS512, claims)
 	token.Header[jwk.KeyIDKey] = f.jsonWebKey.KeyID()
@@ -166,11 +165,14 @@ func (f *FakeJWTServer) createJsonWebToken() (string, error) {
 }
 
 type Config struct {
-	Issuer   string
-	Subject  string
-	Audience string
-	ID       string
-	Port     int
+	Issuer    string
+	Subject   string
+	Audience  string
+	ID        string
+	Port      int
+	Expires   time.Duration
+	Email     string
+	GrandType string
 }
 
 func NewFakeJwtServer() *FakeJWTServer {
@@ -194,11 +196,14 @@ func NewFakeJwtServer() *FakeJWTServer {
 		jsonWebKey:   jsonWebKey,
 		publicKeySet: publicKeySet,
 		config: Config{
-			Issuer:   "product",
-			Subject:  "test",
-			Audience: "product",
-			ID:       "test",
-			Port:     8008,
+			Issuer:    "test",
+			Subject:   "test",
+			Audience:  "test",
+			ID:        "test",
+			Port:      8008,
+			Expires:   24 * 365 * 100 * time.Hour,
+			Email:     "test@example.com",
+			GrandType: "client_credentials",
 		},
 	}
 }
@@ -229,6 +234,24 @@ func (f *FakeJWTServer) WithID(id string) *FakeJWTServer {
 
 func (f *FakeJWTServer) WithPort(port int) *FakeJWTServer {
 	f.config.Port = port
+
+	return f
+}
+
+func (f *FakeJWTServer) WithExpires(expires time.Duration) *FakeJWTServer {
+	f.config.Expires = expires
+
+	return f
+}
+
+func (f *FakeJWTServer) WithEmail(email string) *FakeJWTServer {
+	f.config.Email = email
+
+	return f
+}
+
+func (f *FakeJWTServer) WithGrandType(grantType string) *FakeJWTServer {
+	f.config.GrandType = grantType
 
 	return f
 }
