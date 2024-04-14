@@ -18,7 +18,7 @@ key endpoint for token verification.
 To launch the server in a Docker container, execute the following command:
 
 ```bash
-docker run -p 8008:8008 ghcr.io/stackitcloud/fake-jwt-server:v0.1.0
+docker run -p 8008:8008 ghcr.io/stackitcloud/fake-jwt-server:v0.1.1
 ```
 
 This command initializes the server on port 8008. The public key can be accessed
