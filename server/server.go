@@ -49,7 +49,7 @@ func (f *FakeJWTServer) TokenHandler(writer http.ResponseWriter, request *http.R
 			Message:     "Successfully created token",
 			AccessToken: token,
 			TokenType:   "Bearer",
-			ExpiresIn:   600,
+			ExpiresIn:   int(f.config.Expires.Seconds()),
 		}, "", "  ")
 		if err != nil {
 			log.Printf("failed to marshal response: %v", err)

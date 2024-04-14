@@ -37,7 +37,7 @@ var rootCmd = &cobra.Command{
 		fakeJwtServer.WithPort(port)
 		fakeJwtServer.WithEmail(email)
 		fakeJwtServer.WithGrandType(grandType)
-		fakeJwtServer.WithExpires(time.Duration(expiresInMinutes))
+		fakeJwtServer.WithExpires(time.Duration(expiresInMinutes) * time.Minute)
 
 		err := fakeJwtServer.Serve()
 		if err != nil {
