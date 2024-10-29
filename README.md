@@ -38,4 +38,4 @@ The server's settings can be adjusted using specified environment variables and 
 | `ID`                 | `--id`                 | The id of the tokens. Defaults to `test`.                                 |
 | `EXPIRES_IN_MINUTES` | `--expires-in-minutes` | The expiration time of the JWT tokens in minutes. Defaults to `52560000`. |
 | `GRAND_TYPE`         | `--grand-type`         | The grand type of the JWT tokens. Defaults to `client_credentials`.       |
-| `EMAIL`              | `--email`              | The email of the JWT token in minutes. Defaults to `test@example.com`.    |
+| `EMAIL`              | `--email`              | The email of the JWT token. Defaults to `test@example.com`.               |
