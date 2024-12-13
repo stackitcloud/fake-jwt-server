@@ -39,3 +39,51 @@ The server's settings can be adjusted using specified environment variables and 
 | `EXPIRES_IN_MINUTES` | `--expires-in-minutes` | The expiration time of the JWT tokens in minutes. Defaults to `52560000`. |
 | `GRAND_TYPE`         | `--grand-type`         | The grand type of the JWT tokens. Defaults to `client_credentials`.       |
 | `EMAIL`              | `--email`              | The email of the JWT token. Defaults to `test@example.com`.               |
+
+# Collaboration with Bruno
+
+
+Bruno is our favourite request testing tool.
+
+https://docs.usebruno.com/introduction/what-is-bruno
+
+Therefore, an introduction to how the tokens can be integrated into Bruno.
+
+The workflow is as follows Brono will perform a pre-request against the fake-jwt-server before each request and add the token as header to the actual request.
+
+## Script
+
+```javascript
+const tokenUrl = 'http://localhost:8008/token';
+try {
+    let resp = await axios({
+        method: 'POST',
+        url: tokenUrl,
+    });
+    bru.setVar('ACCESS_TOKEN', resp.data.access_token);
+} catch (error) {
+    throw error;
+}
+```
+
+## Integration
+
+You can make settings for the entire collection.
+The script above is stored in this as a pre-request script.
+![bruno - collection script](../fake-jwt-server-fapo/media/bruno-collection-script.png)
+
+The token is stored in the variable ACCESS_TOKEN in the script.
+
+This must be added to the requests as a header.
+![bruno - collection headers](../fake-jwt-server-fapo/media/bruno-collection-headers.png)
+
+## Non Local Environment
+
+The following script can be used to set the token depending on the environment.
+I am not yet fully satisfied with this solution, so I will update the readme when new findings come to light.
+```javascript
+if (!bru.getEnvName("local")) {
+    bru.setVar('ACCESS_TOKEN', "");
+    return
+}
+```
