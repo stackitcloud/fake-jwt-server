@@ -70,12 +70,12 @@ try {
 
 You can make settings for the entire collection.
 The script above is stored in this as a pre-request script.
-![bruno - collection script](../fake-jwt-server-fapo/media/bruno-collection-script.png)
+![bruno - collection script](./media/bruno-collection-script.png)
 
 The token is stored in the variable ACCESS_TOKEN in the script.
 
 This must be added to the requests as a header.
-![bruno - collection headers](../fake-jwt-server-fapo/media/bruno-collection-headers.png)
+![bruno - collection headers](./media/bruno-collection-headers.png)
 
 ## Non Local Environment
 
