@@ -3,10 +3,10 @@ module github.com/stackitcloud/fake-jwt-server
 go 1.22.2
 
 require (
-	github.com/golang-jwt/jwt/v5 v5.2.2
-	github.com/lestrrat-go/jwx/v2 v2.1.4
+	github.com/golang-jwt/jwt/v5 v5.3.0
+	github.com/lestrrat-go/jwx/v2 v2.1.6
 	github.com/spf13/cobra v1.9.1
-	github.com/spf13/pflag v1.0.6
+	github.com/spf13/pflag v1.0.7
 	github.com/spf13/viper v1.20.1
 )
 
